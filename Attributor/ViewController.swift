@@ -64,17 +64,15 @@ class ViewController: UIViewController {
 	}
 
 	@IBAction func SearchText(_ sender: UIButton) {
-//		let string = self._searchBar.text!.lowercased()
-		let paragraph = self._textView.text!
-		let string = self._searchBar.text!
-		let range: NSRange = (paragraph as NSString).range(of: string)
+		let paragraph: NSString = self._textView.text! as NSString
+		let string: String = self._searchBar.text!
+		var range: NSRange = NSMakeRange(0, paragraph.length)
 
-		if range.location == NSNotFound {
-			print("not found")
-		} else {
+		while range.location != NSNotFound {
+			range = paragraph.range(of: string, options: NSString.CompareOptions.caseInsensitive, range: range)
 			print(range.location, range.length)
+			range.location = range.length + range.location
+			range.length = paragraph.length - range.location
 		}
-
-//		paragraph.removeSubrange(<#T##bounds: ClosedRange<String.Index>##ClosedRange<String.Index>#>)
 	}
 }
