@@ -12,6 +12,7 @@ class ViewController: UIViewController {
 	@IBOutlet weak var _textView: UITextView!
 	@IBOutlet weak var _outlineButton: UIButton!
 	@IBOutlet weak var _unoutlineButton: UIButton!
+	@IBOutlet weak var _searchBar: UITextField!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -27,6 +28,7 @@ class ViewController: UIViewController {
 		                                                NSForegroundColorAttributeName : UIColor.white,
 		                                                NSStrokeWidthAttributeName : NSNumber(value: 4.0)])
 		self._outlineButton.setAttributedTitle(attribute, for: UIControlState.normal)
+		self._searchBar.placeholder = "搜尋"
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -55,5 +57,28 @@ class ViewController: UIViewController {
 		let range: NSRange = self._textView.selectedRange
 
 		self._textView.textStorage.removeAttribute(NSStrokeWidthAttributeName, range: range)
+	}
+
+	@IBAction func _searchBar(_ sender: UITextField) {
+//		print(sender.text!)
+	}
+
+	@IBAction func SearchText(_ sender: UIButton) {
+		let paragraph: NSString = self._textView.text! as NSString
+		let string: String = self._searchBar.text!
+		var range: NSRange = NSMakeRange(0, paragraph.length)
+
+		let attribute = [NSBackgroundColorAttributeName : UIColor.cyan]
+
+		// 重置上次 highlight 的子字串
+		self._textView.textStorage.removeAttribute(NSBackgroundColorAttributeName, range: range)
+
+		while range.location != NSNotFound {
+			range = paragraph.range(of: string, options: NSString.CompareOptions.caseInsensitive, range: range)
+			print(range.location, range.length)
+			self._textView.textStorage.addAttributes(attribute, range: range)
+			range.location = range.length + range.location
+			range.length = paragraph.length - range.location
+		}
 	}
 }
