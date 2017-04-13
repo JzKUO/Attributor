@@ -12,6 +12,7 @@ class ViewController: UIViewController {
 	@IBOutlet weak var _textView: UITextView!
 	@IBOutlet weak var _outlineButton: UIButton!
 	@IBOutlet weak var _unoutlineButton: UIButton!
+	@IBOutlet weak var _searchBar: UITextField!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -27,6 +28,7 @@ class ViewController: UIViewController {
 		                                                NSForegroundColorAttributeName : UIColor.white,
 		                                                NSStrokeWidthAttributeName : NSNumber(value: 4.0)])
 		self._outlineButton.setAttributedTitle(attribute, for: UIControlState.normal)
+		self._searchBar.placeholder = "搜尋"
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -55,5 +57,24 @@ class ViewController: UIViewController {
 		let range: NSRange = self._textView.selectedRange
 
 		self._textView.textStorage.removeAttribute(NSStrokeWidthAttributeName, range: range)
+	}
+
+	@IBAction func _searchBar(_ sender: UITextField) {
+//		print(sender.text!)
+	}
+
+	@IBAction func SearchText(_ sender: UIButton) {
+//		let string = self._searchBar.text!.lowercased()
+		let paragraph = self._textView.text!
+		let string = self._searchBar.text!
+		let range: NSRange = (paragraph as NSString).range(of: string)
+
+		if range.location == NSNotFound {
+			print("not found")
+		} else {
+			print(range.location, range.length)
+		}
+
+//		paragraph.removeSubrange(<#T##bounds: ClosedRange<String.Index>##ClosedRange<String.Index>#>)
 	}
 }
