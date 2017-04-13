@@ -68,10 +68,14 @@ class ViewController: UIViewController {
 		let string: String = self._searchBar.text!
 		var range: NSRange = NSMakeRange(0, paragraph.length)
 
+		let attribute = [NSBackgroundColorAttributeName : UIColor.cyan]
+
+		// 重置上次 highlight 的子字串
+		self._textView.textStorage.removeAttribute(NSBackgroundColorAttributeName, range: range)
+
 		while range.location != NSNotFound {
 			range = paragraph.range(of: string, options: NSString.CompareOptions.caseInsensitive, range: range)
 			print(range.location, range.length)
-			let attribute = [NSBackgroundColorAttributeName : UIColor.cyan]
 			self._textView.textStorage.addAttributes(attribute, range: range)
 			range.location = range.length + range.location
 			range.length = paragraph.length - range.location
